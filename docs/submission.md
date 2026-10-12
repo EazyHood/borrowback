@@ -25,4 +25,4 @@ A compact state machine and explicit proposals can make a simulated assistant's 
 Validate the workflow with actual equipment-sharing groups. Only after that, add authenticated shared records and a properly permissioned Alexa/calendar integration. No external messaging or data collection is included in this prototype.
 
 ## Open Source mini contribution
-New MIT-licensed BorrowBack repository created during the hackathon window. Contribution: a proposal/confirmation state machine, read-only MCP tools, device-local interface, tentative ICS export and 17 regression/integration tests. GitHub contributor: EazyHood. Repository and contribution URL: https://github.com/EazyHood/borrowback . No external maintainer acceptance or merged PR is claimed.
+New MIT-licensed BorrowBack repository created during the hackathon window. Contribution: a proposal/confirmation state machine, read-only MCP tools, device-local interface, tentative ICS export and 20 regression/integration tests. GitHub contributor: EazyHood. Repository and contribution URL: https://github.com/EazyHood/borrowback . No external maintainer acceptance or merged PR is claimed.

@@ -6,7 +6,7 @@
     "node": ">=22.13.0"
   },
   "scripts": {
-    "test": "node --experimental-strip-types --test tests/logic.test.ts",
+    "test": "node --experimental-strip-types --test tests/logic.test.ts tests/mcp-client.test.ts",
     "test:mcp": "node --test tests/mcp.integration.mjs",
     "typecheck": "tsc --noEmit",
     "install:ci": "node scripts/install-ci.mjs",

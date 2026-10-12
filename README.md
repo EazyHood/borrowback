@@ -62,6 +62,8 @@ On Windows, if a surrounding launcher mishandles npm's shell shim, invoke the in
 
 The MCP server is stateless, creates a fresh SDK transport per request, offers two read-only tools, and never receives borrower names or saved loan records. Catalog query strings and demo dates reach it. It requires approved Origin/Host values and bounds requests to 16 KiB. CORS is not authentication: this public demo is for synthetic inputs, not a private operational service. For a different host, change the explicit origin allowlist in `lib/mcp-server.ts` and rebuild.
 
+Before each invocation, the web client performs `initialize`, `notifications/initialized`, and `tools/list`, validates discovery, and checks that the requested tool is advertised. Only then does it send `tools/call`. Missing or malformed discovery stops the flow without saving an agreement.
+
 `localStorage` is not a multi-user database or cross-tab transaction service. Storage events invalidate visible previews; if storage is unavailable, changes are memory-only. No durability guarantee beyond the browser/device is made. Reset clears only this demo's local data.
 
 Optional WebMCP hooks expose the same visible state and actions: `read_demo_agreements`, `stage_demo_conversation`, `confirm_demo_change`. Unsupported browsers still have the full interface. These hooks were checked in a supporting browser with valid and invalid inputs.
@@ -69,6 +71,7 @@ Optional WebMCP hooks expose the same visible state and actions: `read_demo_agre
 ## Validation
 
 - 10 business-rule tests: ambiguity, dates, missing fields, occupied gear, stale/duplicate confirmation, unavailable windows, corrections, explicit receipt, calendar encoding and corrupt storage.
+- 3 client regression tests: discovery before invocation, missing tools and malformed tool discovery.
 - 7 HTTP integration tests: protocol negotiation, 202 notifications, tool list, argument validation, concurrent request isolation, origin/method/body bounds and malformed requests.
 - TypeScript and application ESLint checks.
 - A recorded browser walkthrough exercises clarification, correction, confirmation, reload, conflicting schedules, return plan, calendar draft and receipt.

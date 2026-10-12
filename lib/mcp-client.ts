@@ -1,10 +1,11 @@
 import { z } from "zod";
-import { itemIdSchema, type ItemId, returnWindows } from "./borrowback";
+import { itemIdSchema, type ItemId, returnWindows } from "./borrowback.ts";
 type RpcResult = {
   id?: number;
   error?: { message: string };
   result?: {
     protocolVersion?: string;
+    tools?: unknown;
     isError?: boolean;
     content?: { type: string; text?: string }[];
     structuredContent?: unknown;
@@ -46,9 +47,20 @@ export async function callTool(name: string, args: object) {
   if (init?.result?.protocolVersion !== "2025-11-25")
     throw new Error("Unexpected MCP version.");
   await request({ jsonrpc: "2.0", method: "notifications/initialized" });
-  const result = await request({
+  const discovery = await request({
     jsonrpc: "2.0",
     id: 2,
+    method: "tools/list",
+    params: {},
+  });
+  const tools = z
+    .array(z.object({ name: z.string() }))
+    .parse(discovery?.result?.tools);
+  if (!tools.some((tool) => tool.name === name))
+    throw new Error("The requested tool is not available; nothing has been saved.");
+  const result = await request({
+    jsonrpc: "2.0",
+    id: 3,
     method: "tools/call",
     params: { name, arguments: args },
   });
